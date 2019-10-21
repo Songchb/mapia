@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import KakaoMap from './KakaoMap.js';
 // import App2 from './app2.js';
 
-declare var kakao:any;
+// declare var kakao:any;
 
 class App extends Component {
   constructor(props) {

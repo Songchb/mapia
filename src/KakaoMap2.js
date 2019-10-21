@@ -1,6 +1,6 @@
-declare var kakao:any
 import React, { Component } from 'react'
 
+declare var kakao:any
 
 class KakaoMap extends Component {
   constructor (props) {
