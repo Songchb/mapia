@@ -17,6 +17,7 @@
     "mongoose": "^5.7.3",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
+    "scriptjs": "^2.5.9",
     "superagent": "^5.1.0"
   },
   "devDependencies": {
