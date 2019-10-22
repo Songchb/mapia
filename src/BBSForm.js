@@ -48,13 +48,15 @@ class BBSForm extends Component {
   render () {
     return (
       <div stype={styles.form}>
-        이름:<br />
+        이름: 
         <input
+          style={{ leftMargin : '5px' }}
           type='text' value={this.state.name}
           onChange={e => this.nameChanged(e)}
         /><br />
-        본문:<br />
+        본문: 
         <input
+          style={{ leftMargin : '5px' }}
           type='text' value={this.state.body} size='60'
           onChange={e => this.bodyChanged(e)}
         /><br />

@@ -45,7 +45,7 @@ class BBSApp extends Component {
     ))
     return (
       <div>
-        <h1 style={styles.h1}>게게시판</h1>
+        <h1 style={styles.h1}>방명록</h1>
         <BBSForm onPost={e => this.loadLogs()} />
         <p style={styles.right}>
           <button onClick={e => this.loadLogs()}>

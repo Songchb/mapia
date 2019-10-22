@@ -27,7 +27,7 @@ module.exports = {
   devServer: {
     contentBase : path.join(__dirname, 'public'),
     disableHostCheck: true,
-    host: '192.168.0.2',
+    host: '192.168.0.8',
     port: 80,
   },
   mode: 'development'

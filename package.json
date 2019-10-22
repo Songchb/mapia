@@ -1,12 +1,12 @@
 {
-  "name": "MongoDB",
+  "name": "mapia",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "build": "webpack --config webpack.config.js",
     "start": "webpack-dev-server --hot --inline",
-    "start1": "node mongodb-server.js"
+    "server": "node mongodb-server.js"
   },
   "keywords": [],
   "author": "",
@@ -17,7 +17,8 @@
     "express": "^4.17.1",
     "mongoose": "^5.7.3",
     "react": "^16.10.2",
-    "react-dom": "^16.10.2"
+    "react-dom": "^16.10.2",
+    "superagent": "^5.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.6.2",

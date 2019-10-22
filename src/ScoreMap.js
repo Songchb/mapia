@@ -93,7 +93,7 @@ class ScoreMap extends Component {
   render() {
     return (
       <div>
-        <div id="scoreMap" style={{width:'90%', height:'600px', margin: '10px'}}></div>
+        <div id="scoreMap" style={{width:'90%', height:'900px', margin: '10px'}}></div>
         <button type='button' onClick={this.props.handleScoreToggle}>재시도</button>
       </div>
     )
