@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 // import App2 from './app2.js';
 
-// declare var kakao:any;
-
 class ScoreMap extends Component {
   componentDidMount() {
     var mapContainer = document.getElementById('scoreMap'), // 지도를 표시할 div
@@ -24,7 +22,7 @@ class ScoreMap extends Component {
     var linePath = [
       pickedLocation, roadViewLocation
     ]
-    // console.log('linePath', linePath)
+    console.log('linePath', linePath)
 
     var polyline = new kakao.maps.Polyline({
       path: linePath, // 선을 구성하는 좌표배열 입니다
@@ -36,14 +34,18 @@ class ScoreMap extends Component {
 
     polyline.setMap(kakaoMap)
 
-    var overlayPosition;
-    if(this.props.pickedLocation.lng > this.props.roadViewLocation.lng) overlayPosition = pickedLocation
-    else overlayPosition = roadViewLocation
+    var overlayPosition = new kakao.maps.LatLng(
+      (this.props.pickedLocation.lat + this.props.roadViewLocation.lat) / 2,
+      (this.props.pickedLocation.lng + this.props.roadViewLocation.lng) / 2
+    )
+    
+    // if(this.props.pickedLocation.lng > this.props.roadViewLocation.lng) overlayPosition = pickedLocation
+    // else overlayPosition = roadViewLocation
 
     // 그려진 선의 총 거리를 표시할 커스텀 오버레이를 생성합니다
     var distance = Math.round(polyline.getLength())
     var distanceOverlay = new kakao.maps.CustomOverlay({
-       content: '<div class="dotOverlay">거리 <span class="number">' + (distance > 10000 ? distance/1000:distance) + '</span>'+ (distance>10000?'km':'m') +'</div>',
+       content: '<div style="position:relative;bottom:10px;border-radius:6px;border: 1px solid #ccc;border-bottom:2px solid #ddd;float:left;font-size:12px;padding:5px;background:#fff;"><span style="font-weight:bold;color:#ee6152;">' + (distance > 10000 ? distance/1000:distance) + '</span>'+ (distance>10000?'km':'m') +'</div>',
        position: overlayPosition,
        yAnchor: 1,
        zIndex: 2

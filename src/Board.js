@@ -14,6 +14,7 @@ class Board extends Component {
         lng: null,
       },
       roadViewLocation: {
+        panoId: null,
         lat: null,
         lng: null,
       },
@@ -51,9 +52,10 @@ class Board extends Component {
     )
   }
 
-  handleRoadViewMounted = (lat, lng) => {
+  handleRoadViewLocation = (lat, lng, panoId) => {
     this.setState({
       roadViewLocation: {
+        panoId: panoId,
         lat: lat,
         lng: lng
       }
@@ -74,8 +76,8 @@ class Board extends Component {
         {this.state.guess
           ? <div>
               <RoadView
-                roadViewLocation={this.state.roadViewLocation}
-                handleRoadViewMounted={this.handleRoadViewMounted}
+                handleRoadViewLocation={this.handleRoadViewLocation}
+                handleScoreToggle={this.handleScoreToggle}
               />
               <button type='button' onClick={this.findMyLocation}> 현재위치 찾기 </button>
               <KakaoMap
@@ -84,8 +86,8 @@ class Board extends Component {
                 pickedMarker={this.state.pickedMarker}
                 handleMapClick={this.handleMapClick}
               />
-              <h4>로드뷰 초기 위치를 찍으세요</h4>
-              <button type='button' onClick={this.handleScoreToggle}>찍기</button>
+              <h4>로드뷰의 위치를 찍으세요</h4>
+              <button type='button' onClick={this.handleScoreToggle}>결과는</button>
             </div>
           : <div>
               <ScoreMap

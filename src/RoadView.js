@@ -8,15 +8,11 @@ class RoadView extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      panoId: null,
-      roadview: null,
-      rvPosition: null,
     }
   }
 
   componentDidMount() {
     var roadviewContainer = document.getElementById('roadview');
-
     //로드뷰 객체를 생성한다
     var roadview = new kakao.maps.Roadview(roadviewContainer, {
       pan: 68, // 로드뷰 처음 실행시에 바라봐야 할 수평 각
@@ -25,54 +21,30 @@ class RoadView extends Component {
     });
 
     var roadviewClient = new kakao.maps.RoadviewClient()
-
     var rvPosition = new kakao.maps.LatLng(
       randomRange(35176832, 37861999) / 1000000,
       randomRange(126693605, 128809716) / 1000000
-    );
+    )
 
     roadviewClient.getNearestPanoId(rvPosition, 1000000, function(nearPanoId) {
       roadview.setPanoId(nearPanoId, rvPosition);
-    });
-
-    this.props.handleRoadViewMounted(
-      roadview.getPosition().getLat(),
-      roadview.getPosition().getLng()
-    )
-
-    this.setState({
-      roadview: roadview,
     })
+
+		// 로드뷰 지도 좌표 변화 이벤트
+		kakao.maps.event.addListener(roadview, 'position_changed', () => {
+      this.props.handleRoadViewLocation(
+        roadview.getPosition().getLat(),
+        roadview.getPosition().getLng(),
+        roadview.getPanoId()
+      )
+		})
   }
 
-  componentWillReceiveProps(nextProps) {
-    if(this.state.rvPosition === null || nextProps.roadViewLocation.lat !== this.state.rvPosition.getLat()) {
-      const roadview = this.state.roadview
-      if(this.state.roadview !== null) {
-        this.setState({
-          panoId: roadview.getPanoId(),
-          roadview: roadview,
-          rvPosition: roadview.getPosition(),
-        })
-
-        this.props.handleRoadViewMounted(
-          roadview.getPosition().getLat(),
-          roadview.getPosition().getLng()
-        )
-      }
-
-    }
-  }
-
-  handleGoOrigin = () => {
-    this.state.roadview.setPanoId(this.state.panoId, this.state.rvPosition)
-  }
 
   render() {
     return (
       <div>
         <div className="Roadview" id="roadview" style={{ width: '80%', height: '400px', margin: '10px'}}></div>
-        <button type='button' onClick={this.handleGoOrigin}>처음 위치로 돌아가기</button>
       </div>
     )
   }

@@ -26,7 +26,8 @@ module.exports = {
   devtool: 'inline-source-map',
   devServer: {
     contentBase : path.join(__dirname, 'public'),
-    // host: '192.168.0.2',
+    disableHostCheck: true,
+    host: '192.168.0.2',
     port: 8080,
   },
   mode: 'development'
