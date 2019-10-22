@@ -5,8 +5,8 @@ class KakaoMap extends Component {
     super(props)
     this.state = {
       map: null,
-      lat: 36.472864,
-      lng: 128.017457,
+      lat: 37.547158,
+      lng: 127.006566,
       pickedMarker: this.props.pickedMarker,
     }
   }
@@ -15,7 +15,7 @@ class KakaoMap extends Component {
     var mapContainer = document.getElementById('map'), // 지도를 표시할 div
 	    mapOption = {
         center: new kakao.maps.LatLng(this.state.lat, this.state.lng), // 지도의 중심좌표
-        level : 13, // 지도의 확대 레벨
+        level : 9, // 지도의 확대 레벨
         mapTypeId : kakao.maps.MapTypeId.ROADMAP // 지도종류
 	    };
 
@@ -40,6 +40,23 @@ class KakaoMap extends Component {
         marker
       )
     })
+
+    var rectangleBounds = new kakao.maps.LatLngBounds(
+      new kakao.maps.LatLng(37.472433, 126.908862),
+      new kakao.maps.LatLng(37.623232, 127.100093)
+    );
+
+    var square = new kakao.maps.Rectangle({
+      bounds: rectangleBounds, // 그려질 다각형의 좌표 배열입니다
+      strokeWeight: 3, // 선의 두께입니다
+      strokeColor: '#FF3DE5', // 선의 색깔입니다
+      strokeOpacity: 0.8, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+      strokeStyle: 'solid', // 선의 스타일입니다
+      fillColor: '#FF8AEF', // 채우기 색깔입니다
+      fillOpacity: 0.1 // 채우기 불투명도 입니다
+    });
+
+    square.setMap(kakaoMap)
 
     // 지도에 클릭 이벤트 등록
     kakao.maps.event.addListener(kakaoMap, 'click', (mouseEvent) => {
@@ -101,7 +118,7 @@ class KakaoMap extends Component {
   render() {
     return (
       <div>
-        <div className="Map" id="map" style={{width:'80%', height:'500px', margin: '10px'}}></div>
+        <div className="Map" id="map" style={{width:'80%', height:'400px', margin: '10px'}}></div>
       </div>
     )
   }

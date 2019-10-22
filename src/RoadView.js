@@ -22,8 +22,8 @@ class RoadView extends Component {
 
     var roadviewClient = new kakao.maps.RoadviewClient()
     var rvPosition = new kakao.maps.LatLng(
-      randomRange(35176832, 37861999) / 1000000,
-      randomRange(126693605, 128809716) / 1000000
+      randomRange(37472433, 37623232) / 1000000,
+      randomRange(126908862, 127100093) / 1000000
     )
 
     roadviewClient.getNearestPanoId(rvPosition, 1000000, function(nearPanoId) {

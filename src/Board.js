@@ -79,15 +79,41 @@ class Board extends Component {
                 handleRoadViewLocation={this.handleRoadViewLocation}
                 handleScoreToggle={this.handleScoreToggle}
               />
+              {/*
               <button type='button' onClick={this.findMyLocation}> 현재위치 찾기 </button>
+              */}
               <KakaoMap
                 deviceLocation={this.state.deviceLocation}
                 pickedLocation={this.state.pickedLocation}
                 pickedMarker={this.state.pickedMarker}
                 handleMapClick={this.handleMapClick}
               />
-              <h4>로드뷰의 위치를 찍으세요</h4>
-              <button type='button' onClick={this.handleScoreToggle}>결과는</button>
+              <table style={{ width: '80%' }}>
+                <tbody>
+                  <tr>
+                    <th>
+                      <h4>서울시 안에서 로드뷰가 어디일지 찍어보세요</h4>
+                    </th>
+                    <th>
+                      <button
+                        type='button'
+                        style={{
+                          width: '100px',
+                          backgroundColor: '#f8585b',
+                          color: '#fff',
+                          padding: '15px 0',
+                          textAlign: 'center',
+                          fontSize: '15px',
+                          margin: '4px',
+                        }}
+                        onClick={this.handleScoreToggle}
+                      >
+                        결과 확인
+                      </button>
+                    </th>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           : <div>
               <ScoreMap

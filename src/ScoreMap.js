@@ -38,21 +38,48 @@ class ScoreMap extends Component {
       (this.props.pickedLocation.lat + this.props.roadViewLocation.lat) / 2,
       (this.props.pickedLocation.lng + this.props.roadViewLocation.lng) / 2
     )
-    
+
     // if(this.props.pickedLocation.lng > this.props.roadViewLocation.lng) overlayPosition = pickedLocation
     // else overlayPosition = roadViewLocation
 
     // 그려진 선의 총 거리를 표시할 커스텀 오버레이를 생성합니다
     var distance = Math.round(polyline.getLength())
     var distanceOverlay = new kakao.maps.CustomOverlay({
-       content: '<div style="position:relative;bottom:10px;border-radius:6px;border: 1px solid #ccc;border-bottom:2px solid #ddd;float:left;font-size:12px;padding:5px;background:#fff;"><span style="font-weight:bold;color:#ee6152;">' + (distance > 10000 ? distance/1000:distance) + '</span>'+ (distance>10000?'km':'m') +'</div>',
+       content: '<div style="position:relative;bottom:10px;border-radius:6px;'
+        +'border: 1px solid #ccc;border-bottom:2px solid #ddd;float:left;'
+        +'font-size:12px;padding:5px;background:#fff;">'
+        +'<span style="font-weight:bold;color:#ee6152;">'
+        +(distance > 10000 ? distance/1000:distance)
+        +'</span>'
+        +(distance>10000?'km':'m')
+        +'</div>',
        position: overlayPosition,
+       yAnchor: 1,
+       zIndex: 2
+    });
+
+    var pickedLocationOverlay = new kakao.maps.CustomOverlay({
+       content: '<div style="position:relative;bottom:10px;border-radius:6px;'
+        +'border: 1px solid #ccc;border-bottom:2px solid #ddd;float:left;'
+        +'font-size:12px;padding:5px;background:#fff;">찍은곳</div>',
+       position: pickedLocation,
+       yAnchor: 1,
+       zIndex: 2
+    });
+
+    var roadViewLocationOverlay = new kakao.maps.CustomOverlay({
+       content: '<div style="position:relative;bottom:10px;border-radius:6px;'
+        +'border: 1px solid #ccc;border-bottom:2px solid #ddd;float:left;'
+        +'font-size:12px;padding:5px;background:#fff;">로드뷰</div>',
+       position: roadViewLocation,
        yAnchor: 1,
        zIndex: 2
     });
 
     // 지도에 표시합니다
     distanceOverlay.setMap(kakaoMap);
+    pickedLocationOverlay.setMap(kakaoMap);
+    roadViewLocationOverlay.setMap(kakaoMap);
 
     // 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
     var bounds = new kakao.maps.LatLngBounds();

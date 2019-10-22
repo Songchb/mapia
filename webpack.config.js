@@ -28,7 +28,7 @@ module.exports = {
     contentBase : path.join(__dirname, 'public'),
     disableHostCheck: true,
     host: '192.168.0.2',
-    port: 8080,
+    port: 80,
   },
   mode: 'development'
 }
