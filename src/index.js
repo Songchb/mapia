@@ -1,12 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import MapApp from './MapApp.js'
-import BBSApp from './BBSApp.js'
+import Board from './Board.js'
 
 ReactDOM.render(
   <div>
-    <BBSApp />
-    <MapApp />
+    <Board />
   </div>,
   document.getElementById('root')
 )

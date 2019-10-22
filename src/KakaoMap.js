@@ -1,128 +1,108 @@
-import React, { Component, Fragment } from 'react'
-
-// declare var kakao:any
+import React, { Component } from 'react'
 
 class KakaoMap extends Component {
   constructor(props) {
     super(props)
     this.state = {
       map: null,
-      lat: this.props.lat,
-      lng: this.props.lng,
-      markers: this.props.markers,
+      lat: 36.472864,
+      lng: 128.017457,
+      pickedMarker: this.props.pickedMarker,
     }
   }
 
   componentDidMount() {
-
     var mapContainer = document.getElementById('map'), // 지도를 표시할 div
-		    mapOption = {
-            center: new kakao.maps.LatLng(this.state.lat, this.state.lng), // 지도의 중심좌표
-            level : 3, // 지도의 확대 레벨
-		        mapTypeId : kakao.maps.MapTypeId.ROADMAP // 지도종류
-		    };
+	    mapOption = {
+        center: new kakao.maps.LatLng(this.state.lat, this.state.lng), // 지도의 중심좌표
+        level : 13, // 지도의 확대 레벨
+        mapTypeId : kakao.maps.MapTypeId.ROADMAP // 지도종류
+	    };
 
 		// 지도를 생성한다
 		var kakaoMap = new kakao.maps.Map(mapContainer, mapOption);
 
-    // kakaoMap.setDraggable(true);
+    // 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
+    var zoomControl = new kakao.maps.ZoomControl();
+    kakaoMap.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+
+    var marker = new kakao.maps.Marker({
+      // 지도 중심좌표에 마커를 생성합니다
+      position: kakaoMap.getCenter(),
+      draggable : true,
+    })
+
+    // 마커의 드래그가 종료될 때 마커의 정보를 부모에게 넘겨줍니다
+    kakao.maps.event.addListener(marker, 'dragend', () => {
+      this.props.handleMapClick(
+        marker.getPosition().getLat(),
+        marker.getPosition().getLng(),
+        marker
+      )
+    })
+
+    // 지도에 클릭 이벤트 등록
+    kakao.maps.event.addListener(kakaoMap, 'click', (mouseEvent) => {
+      // 클릭한 위도, 경도 정보를 가져옵니다
+      var latlng = mouseEvent.latLng;
+      marker.setPosition(latlng);
+
+      if(this.props.pickedMarker === null) {
+        marker.setMap(kakaoMap);
+      }
+      this.props.handleMapClick(latlng.getLat(), latlng.getLng(), marker)
+    })
 
     this.setState({
       map: kakaoMap,
     })
-
-
-    var roadviewContainer = document.getElementById('roadview');
-
-		// 로드뷰 위치
-    // var rvPosition = new kakao.maps.LatLng(37.56613, 126.97837);
-		var rvPosition = new kakao.maps.LatLng(this.state.lat, this.state.lng);
-
-		//로드뷰 객체를 생성한다
-		var roadview = new kakao.maps.Roadview(roadviewContainer, {
-			panoId : 1050215190, // 로드뷰 시작 지역의 고유 아이디 값
-      panoX: this.state.lat,
-      panoY: this.state.lng,
-			// panoX : 126.97837, // panoId가 유효하지 않을 경우 지도좌표를 기반으로 데이터를 요청할 수평 좌표값
-			// panoY : 37.56613, // panoId가 유효하지 않을 경우 지도좌표를 기반으로 데이터를 요청할 수직 좌표값
-			pan: 68, // 로드뷰 처음 실행시에 바라봐야 할 수평 각
-			tilt: 1, // 로드뷰 처음 실행시에 바라봐야 할 수직 각
-			zoom: -1 // 로드뷰 줌 초기값
-		});
-
-    // 로드뷰 초기화 완료 이벤트를 등록한다
-		kakao.maps.event.addListener(roadview, 'init', function() {
-		    console.log('로드뷰 초기화가 완료되었습니다');
-		});
-
-		// 로드뷰 파노라마 ID 변화 이벤트를 등록한다
-		kakao.maps.event.addListener(roadview, 'panoid_changed', function() {
-		    console.log('로드뷰의 파노라마 ID가 변경되었습니다');
-		});
-
-		// 로드뷰 시점 변화 이벤트를 등록한다
-		kakao.maps.event.addListener(roadview, 'viewpoint_changed', function() {
-			console.log('로드뷰 시점이 변경되었습니다');
-		});
-
-		// 로드뷰 지도 좌표 변화 이벤트를 등록한다
-		kakao.maps.event.addListener(roadview, 'position_changed', function() {
-		    console.log('로드뷰 좌표가 변경되었습니다');
-		});
-
   }
 
   componentDidUpdate(prevProps, prevState) {
-    // console.log(prevState.map)
-    // console.log(this.state.map)
-    if(prevState.map !== null)
-      console.log('old center : ', prevState.map.getCenter())
-    else
-      console.log('old map is null')
-    if(this.state.map !== null)
-      console.log('new center : ', this.state.map.getCenter())
-    else
-      console.log('new map is null')
-
-
-    if(this.props.lat !== prevProps.lat && this.props.lng !== prevProps.lng) {
-      // console.log('componentDidUpdate!')
-      console.log('oldProps', prevProps)
-      console.log('newProps', this.props)
-      // console.log('this.state.map', this.state.map)
-      this.setState({
-        lat: this.props.lat,
-        lng: this.props.lng,
-      })
-
+    // device의 현재 위치를 확인
+    if(this.props.deviceLocation !== prevProps.deviceLocation) {
       // 마커를 생성합니다
       var marker = new kakao.maps.Marker({
-          position: new kakao.maps.LatLng(this.props.lat, this.props.lng),
-          draggble: true,
+          position: new kakao.maps.LatLng(
+            this.props.deviceLocation.lat,
+            this.props.deviceLocation.lng
+          ),
           map : this.state.map
       });
 
-      // 마커가 지도 위에 표시되도록 설정합니다
-      this.state.map.setCenter(new kakao.maps.LatLng(this.props.lat, this.props.lng))
+      // 맵의 중앙을 변합니다
+      this.state.map.setCenter(
+        new kakao.maps.LatLng(
+          this.props.deviceLocation.lat,
+          this.props.deviceLocation.lng
+        )
+      )
 
-    } else if(this.state.map !== prevState.map) {
-      console.log('handleMapDragged')
+      // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+      var iwContent = '<div style="padding: 5px;">'
+      +'내 위치'+'</div>'
+      //인포윈도우 표시 위치입니다
+      var iwPosition = new kakao.maps.LatLng(
+        this.props.deviceLocation.lat,
+        this.props.deviceLocation.lng
+      );
 
-      let newLat = this.state.map.getCenter().getLat()
-      let newLng = this.state.map.getCenter().getLng()
-      this.setState({
-        lat: newLat,
-        lng: newLng,
-      })
+      // 인포윈도우를 생성합니다
+      var infowindow = new kakao.maps.InfoWindow({
+          position : iwPosition,
+          content : iwContent
+      });
+
+      // 마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다
+      infowindow.open(this.state.map, marker);
     }
   }
 
   render() {
     return (
-      <Fragment>
-        <div className="Map" id="map" style={{width:'80%', height:'500px', margin: '50px'}}></div>
-        <div className="Roadview" id="roadview" style={{ width: '80%', height: '400px', margin: '50px'}}></div>
-      </Fragment>
+      <div>
+        <div className="Map" id="map" style={{width:'80%', height:'500px', margin: '10px'}}></div>
+      </div>
     )
   }
 }
