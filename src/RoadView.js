@@ -25,8 +25,8 @@ class RoadView extends Component {
       randomRange(37472433, 37623232) / 1000000,
       randomRange(126908862, 127100093) / 1000000
     )
-
-    roadviewClient.getNearestPanoId(rvPosition, 1000000, function(nearPanoId) {
+    console.log(rvPosition)
+    roadviewClient.getNearestPanoId(rvPosition, 100, function(nearPanoId) {
       roadview.setPanoId(nearPanoId, rvPosition);
     })
 
