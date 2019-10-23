@@ -118,7 +118,7 @@ class KakaoMap extends Component {
   render() {
     return (
       <div>
-        <div className="Map" id="map" style={{width:'80%', height:'400px', margin: '10px'}}></div>
+        <div className="Map" id="map" style={{ height:'400px', margin: '10px'}}></div>
       </div>
     )
   }

@@ -47,7 +47,7 @@ class RoadView extends Component {
   render() {
     return (
       <div>
-        <div className="Roadview" id="roadview" style={{ width: '80%', height: '400px', margin: '10px'}}></div>
+        <div className="Roadview" id="roadview" style={{ height: '400px', margin: '10px'}}></div>
       </div>
     )
   }

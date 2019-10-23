@@ -22,7 +22,7 @@ class Board extends Component {
         lat: null,
         lng: null,
       },
-      guess: true,
+      guess: false,
     }
   }
 
@@ -63,6 +63,8 @@ class Board extends Component {
   }
 
   handleScoreToggle = () => {
+    if(this.state.guess === false && this.state.pickedMarker === null)
+      return
     const guess = this.state.guess
     this.setState({
       pickedMarker: null,
@@ -73,7 +75,7 @@ class Board extends Component {
   render () {
     return (
       <div>
-        {this.state.guess
+        {!this.state.guess
           ? <div>
               <RoadView
                 handleRoadViewLocation={this.handleRoadViewLocation}
@@ -88,7 +90,7 @@ class Board extends Component {
                 pickedMarker={this.state.pickedMarker}
                 handleMapClick={this.handleMapClick}
               />
-              <table style={{ width: '80%' }}>
+              <table style={{ float: 'right' }}>
                 <tbody>
                   <tr>
                     <th>
