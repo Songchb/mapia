@@ -14,19 +14,22 @@ class RoadView extends Component {
   componentDidMount() {
     var roadviewContainer = document.getElementById('roadview');
     //로드뷰 객체를 생성한다
+
+    var rndLat = randomRange(37472433, 37623232) / 1000000,
+      rndLng = randomRange(126908862, 127100093) / 1000000
+
     var roadview = new kakao.maps.Roadview(roadviewContainer, {
+      panoX: rndLat,
+      panoY: rndLng,
       pan: 68, // 로드뷰 처음 실행시에 바라봐야 할 수평 각
       tilt: 1, // 로드뷰 처음 실행시에 바라봐야 할 수직 각
       zoom: -1 // 로드뷰 줌 초기값
     });
 
     var roadviewClient = new kakao.maps.RoadviewClient()
-    var rvPosition = new kakao.maps.LatLng(
-      randomRange(37472433, 37623232) / 1000000,
-      randomRange(126908862, 127100093) / 1000000
-    )
-    console.log(rvPosition)
-    roadviewClient.getNearestPanoId(rvPosition, 100, function(nearPanoId) {
+    var rvPosition = new kakao.maps.LatLng(rndLat, rndLng)
+
+    roadviewClient.getNearestPanoId(rvPosition, 1000, function(nearPanoId) {
       roadview.setPanoId(nearPanoId, rvPosition);
     })
 
