@@ -94,6 +94,7 @@ class ScoreMap extends Component {
     return (
       <div>
         <div id="scoreMap" style={{ height:'820px', margin: '10px' }}></div>
+        {/*
         <button
           type='button'
           style={{
@@ -110,6 +111,7 @@ class ScoreMap extends Component {
         >
           재시도
         </button>
+        */}
       </div>
     )
   }

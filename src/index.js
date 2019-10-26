@@ -6,7 +6,6 @@ import Board from './Board.js'
 ReactDOM.render(
   <div>
     <Board />
-    <BBSApp />
   </div>,
   document.getElementById('root')
 )

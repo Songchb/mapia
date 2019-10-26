@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import KakaoMap from './KakaoMap.js'
 import RoadView from './RoadView.js'
 import ScoreMap from './ScoreMap.js'
+import AppBar from './AppBar.js'
 
 class Board extends Component {
   constructor(props) {
@@ -81,13 +82,13 @@ class Board extends Component {
                 handleRoadViewLocation={this.handleRoadViewLocation}
                 handleScoreToggle={this.handleScoreToggle}
               />
-              <button type='button' onClick={this.findMyLocation}> 현재위치 찾기 </button>
               <KakaoMap
                 deviceLocation={this.state.deviceLocation}
                 pickedLocation={this.state.pickedLocation}
                 pickedMarker={this.state.pickedMarker}
                 handleMapClick={this.handleMapClick}
               />
+              {/*
               <table style={{ float: 'right' }}>
                 <tbody>
                   <tr>
@@ -114,6 +115,7 @@ class Board extends Component {
                   </tr>
                 </tbody>
               </table>
+              */}
             </div>
           : <div>
               <ScoreMap
@@ -123,6 +125,11 @@ class Board extends Component {
               />
             </div>
         }
+        <AppBar
+          guess={this.state.guess}
+          findMyLocation={this.findMyLocation}
+          handleScoreToggle={this.handleScoreToggle}
+        />
       </div>
     )
   }
