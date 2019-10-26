@@ -81,9 +81,7 @@ class Board extends Component {
                 handleRoadViewLocation={this.handleRoadViewLocation}
                 handleScoreToggle={this.handleScoreToggle}
               />
-              {/*
               <button type='button' onClick={this.findMyLocation}> 현재위치 찾기 </button>
-              */}
               <KakaoMap
                 deviceLocation={this.state.deviceLocation}
                 pickedLocation={this.state.pickedLocation}

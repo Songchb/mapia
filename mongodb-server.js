@@ -42,7 +42,7 @@ var Msg = mongoose.model('Msg', MsgSchema)
 // 서버실행
 const express = require('express')
 const app = express()
-const webPortNo = 3000
+const webPortNo = 80
 app.listen(webPortNo, () => {
   console.log('서버 실행 완료:', `http://localhost:${webPortNo}`)
 })
